@@ -21,7 +21,7 @@ public class ProyectoFinalSpringbootPooApplication {
     public static void main(String[] args) {
 
         beanFactory = SpringApplication.run(ProyectoFinalSpringbootPooApplication.class, args);
-        int casoSeleccionado = 6;
+        int casoSeleccionado = 1;
         switch(casoSeleccionado){
             case 1:
                 // En este caso, todas las transacciones son exitosas,
@@ -54,6 +54,14 @@ public class ProyectoFinalSpringbootPooApplication {
                 casoCinco();
                 break;
             case 6:
+                // En este caso, todas las transacciones son fallidas,
+                // Se realizan 3 transacciones con pines incorrectos en la misma tarjeta, por lo que la tarjeta queda bloqueada
+                // Esto hace que, en la cuarta transacción, a pesar de ingresar el pin correcto y un monto inferior al balance disponible,
+                // la transacción sea fallida
+                casoSeis();
+                break;
+
+            case 7:
                 // En este caso, todas las transacciones son fallidas,
                 // Se realizan 3 transacciones con pines incorrectos en la misma tarjeta, por lo que la tarjeta queda bloqueada
                 // Esto hace que, en la cuarta transacción, a pesar de ingresar el pin correcto y un monto inferior al balance disponible,
@@ -406,6 +414,86 @@ public class ProyectoFinalSpringbootPooApplication {
             System.out.println("Transacción 4 exitosa");
         }else {
             System.out.println("Transacción 4 fallida");
+        }
+
+    }
+
+    public static void casoSiete(){
+
+
+        BusinessLogic logicaNegocio = beanFactory.getBean(BusinessLogic.class);
+
+        String email = "esandoval@mail.com";
+
+        String pinCorrecto = "1234";
+
+        TarjetaDeDebito tarjeta = logicaNegocio.buscarTarjetasDeDebitoPorEmail(email).get(0);
+
+
+        Transaccion primeraTransaccion = Transaccion.builder()
+                .monto(50.00)
+                .tienda("Zapatería")
+                .fecha(ZonedDateTime.now())
+                .build();
+
+        Transaccion segundaTransaccion = Transaccion.builder()
+                .monto(75.00)
+                .tienda("Zapatería")
+                .fecha(ZonedDateTime.now())
+                .build();
+
+        Transaccion terceraTransaccion = Transaccion.builder()
+                .monto(80.00)
+                .tienda("Zapatería")
+                .fecha(ZonedDateTime.now())
+                .build();
+
+        Transaccion cuartaTransaccion = Transaccion.builder()
+                .monto(80.00)
+                .tienda("Zapatería")
+                .fecha(ZonedDateTime.now())
+                .build();
+
+        Transaccion quintaTransaccion = Transaccion.builder()
+                .monto(80.00)
+                .tienda("Zapatería")
+                .fecha(ZonedDateTime.now())
+                .build();
+
+        Transaccion primerResultado = logicaNegocio.crearTransaccion(primeraTransaccion, tarjeta, "1111");
+        Transaccion segundoResultado = logicaNegocio.crearTransaccion(segundaTransaccion, tarjeta, "1111");
+        Transaccion tercerResultado = logicaNegocio.crearTransaccion(terceraTransaccion, tarjeta, pinCorrecto);
+        Transaccion cuartoResultado = logicaNegocio.crearTransaccion(terceraTransaccion, tarjeta, "1111");
+        Transaccion quintoResultado = logicaNegocio.crearTransaccion(terceraTransaccion, tarjeta, pinCorrecto);
+
+        if(primerResultado != null){
+            System.out.println("Transacción 1 exitosa");
+        }else {
+            System.out.println("Transacción 1 fallida");
+        }
+
+        if(segundoResultado != null){
+            System.out.println("Transacción 2 exitosa");
+        }else {
+            System.out.println("Transacción 2 fallida");
+        }
+
+        if(tercerResultado != null){
+            System.out.println("Transacción 3 exitosa");
+        }else {
+            System.out.println("Transacción 3 fallida");
+        }
+
+        if(cuartoResultado != null){
+            System.out.println("Transacción 4 exitosa");
+        }else {
+            System.out.println("Transacción 4 fallida");
+        }
+
+        if(quintoResultado != null){
+            System.out.println("Transacción 5 exitosa");
+        }else {
+            System.out.println("Transacción 5 fallida");
         }
 
     }

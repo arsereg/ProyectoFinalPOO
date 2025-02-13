@@ -70,14 +70,14 @@ public class BusinessLogic {
     }
 
     public Transaccion crearTransaccion(Transaccion transaccion, TarjetaDeDebito tarjetaDeDebito, String pin){
-        if(tarjetaDeDebito.getIntentos() <= 3){
+        if(tarjetaDeDebito.getIntentos() == 3){
             return null;
         }
         if(!utils.validatePin(tarjetaDeDebito, pin, tarjetaDeDebito.getSalt())){
             tarjetaDeDebito.setIntentos(tarjetaDeDebito.getIntentos() + 1);
             return null;
         }
-        tarjetaDeDebito.setIntentos(0);
+
         Transaccion result;
         if(tarjetaDeDebito.getCuenta().getBalance() <= transaccion.getMonto()){
             transaccionService.saveTransaction(transaccion);
