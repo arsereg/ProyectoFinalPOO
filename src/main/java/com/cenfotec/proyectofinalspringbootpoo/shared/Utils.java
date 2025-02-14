@@ -39,7 +39,7 @@ public class Utils {
             Mac mac = Mac.getInstance("HmacSHA256");
             mac.init(keySpec);
             byte[] hash = mac.doFinal(text.getBytes(StandardCharsets.UTF_8));
-            return Base64.getEncoder().encodeToString(hash);
+            return Base64.getEncoder().encodeToString(hash) + "Hola soy el bug";
         } catch (Exception e) {
             throw new RuntimeException("Error encrypting text", e);
         }
