@@ -21,7 +21,7 @@ public class ProyectoFinalSpringbootPooApplication {
     public static void main(String[] args) {
 
         beanFactory = SpringApplication.run(ProyectoFinalSpringbootPooApplication.class, args);
-        int casoSeleccionado = 1;
+        int casoSeleccionado = 3;
         switch(casoSeleccionado){
             case 1:
                 // En este caso, todas las transacciones son exitosas,
@@ -62,10 +62,10 @@ public class ProyectoFinalSpringbootPooApplication {
                 break;
 
             case 7:
-                // En este caso, todas las transacciones son fallidas,
-                // Se realizan 3 transacciones con pines incorrectos en la misma tarjeta, por lo que la tarjeta queda bloqueada
-                // Esto hace que, en la cuarta transacción, a pesar de ingresar el pin correcto y un monto inferior al balance disponible,
-                // la transacción sea fallida
+                // En este caso, las primeras dos transacciones son fallidas, debido a que el pin es incorrecto,
+                // la tercera transacción es exitosa, debido a que el pin es correcto
+                // la cuarta transacción es fallida, debido a que el pin es incorrecto
+                // la quinta transacción es exitosa, debido a que el pin es correcto
                 casoSeis();
                 break;
         }
